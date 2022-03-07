@@ -5,8 +5,11 @@ import {
   getAuth,
   GithubAuthProvider,
   signInWithPopup,
+  signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+
+const auth = getAuth();
 
 export const sendMail = ({ date, email, name, subject, message }, cb) => {
   set(ref(db, `users/${date}`), {
@@ -18,8 +21,6 @@ export const sendMail = ({ date, email, name, subject, message }, cb) => {
     .then(() => cb(null, true))
     .catch((err) => cb(err, false));
 };
-
-const auth = getAuth();
 
 export const loginWithGithub = async () => {
   try {
@@ -39,14 +40,10 @@ export const loginWithGithub = async () => {
   }
 };
 
-export const authListener = () => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-
-      return uid;
-    } else {
-      return null;
-    }
-  });
+export const logoutFirebase = async () => {
+  try {
+    await signOut(auth);
+  } catch (err) {
+    console.log(err);
+  }
 };
