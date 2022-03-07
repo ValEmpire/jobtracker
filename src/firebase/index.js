@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
-import { getAuth, signInAnonymously } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCWnKHk8ZGk3EOwKLEretOc4pS5yPWu9ws",
@@ -13,16 +12,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-const auth = getAuth();
-
-signInAnonymously(auth)
-  .then(() => {
-    console.log("Firebase auth signed in");
-  })
-  .catch((error) => {
-    console.log(error);
-  });
 
 // Get a reference to the database service
 export const db = getDatabase(app);

@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, Box, Button } from "@mui/material";
 import Layout from "../../layout";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { authListener } from "../../firebase/action";
 
 const App = (props) => {
+  useEffect(() => {
+    authListener();
+  }, []);
+
   return (
     <Layout>
       <Grid
