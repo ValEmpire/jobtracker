@@ -1,11 +1,20 @@
 import React from "react";
-import Layout from "./layout";
-import Home from "./pages/home";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-export default function App(props) {
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Registration from "./pages/registration";
+
+const App = () => {
   return (
-    <Layout>
-      <Home />
-    </Layout>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/register" element={<Registration />} />
+      </Routes>
+    </Router>
   );
-}
+};
+
+export default App;
