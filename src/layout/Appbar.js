@@ -14,7 +14,9 @@ export default function ButtonAppBar() {
         <Container maxWidth="xl">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              JobTracker
+              <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+                JobTracker
+              </Link>
             </Typography>
             <Button LinkComponent={Link} to="/login" color="inherit">
               Login
