@@ -6,20 +6,14 @@ import {
   GithubAuthProvider,
   signInWithPopup,
   signOut,
-  onAuthStateChanged,
 } from "firebase/auth";
 
 const auth = getAuth();
 
-export const sendMail = ({ date, email, name, subject, message }, cb) => {
-  set(ref(db, `users/${date}`), {
-    email,
-    name,
-    message,
-    subject,
-  })
-    .then(() => cb(null, true))
-    .catch((err) => cb(err, false));
+export const createJobData = async (data) => {
+  await set(ref(db, `${data.uid}`), {
+    data,
+  });
 };
 
 export const loginWithGithub = async () => {
@@ -30,11 +24,7 @@ export const loginWithGithub = async () => {
 
     provider.addScope("read:user");
 
-    const res = await signInWithPopup(auth, provider);
-
-    const { user } = res;
-
-    console.log(user);
+    await signInWithPopup(auth, provider);
   } catch (err) {
     console.log(err);
   }

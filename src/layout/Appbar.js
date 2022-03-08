@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Button, Container } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoutFirebase } from "../firebase/action";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useAuthStatus } from "../hooks/auth";
 
 export default function ButtonAppBar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const navigate = useNavigate();
 
-  const auth = getAuth();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuthenticated(true);
-      }
-
-      return null;
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [auth]);
+  const user = useAuthStatus();
 
   const handleLogout = () => {
     logoutFirebase();
+
+    navigate("/");
+  };
+
+  const handleLogin = () => {
+    navigate("/");
   };
 
   return (
@@ -42,9 +34,14 @@ export default function ButtonAppBar() {
               </Link>
             </Typography>
 
-            {isAuthenticated && (
+            {user && (
               <Button onClick={handleLogout} color="inherit">
                 Logout
+              </Button>
+            )}
+            {user === null && (
+              <Button onClick={handleLogin} color="inherit">
+                Login
               </Button>
             )}
           </Toolbar>
