@@ -20,7 +20,7 @@ export const addRow = async (data, index, uid) => {
   }
 };
 
-export const save = async (data, uid) => {
+export const save = async (data, uid, cb) => {
   try {
     const jobData = [...data];
 
@@ -30,7 +30,7 @@ export const save = async (data, uid) => {
 
     await set(ref(db, `${uid}`), jobData);
 
-    console.log("Saved successfully.");
+    cb(false, true);
   } catch (err) {
     console.log(err);
   }

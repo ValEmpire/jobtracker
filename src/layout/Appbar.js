@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Button, Container } from "@mui/material";
+import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutFirebase } from "../firebase/action";
 import { useAuthStatus } from "../hooks/auth";

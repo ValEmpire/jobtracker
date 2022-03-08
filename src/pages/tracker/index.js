@@ -5,6 +5,7 @@ import Layout from "../../layout";
 import Spreadsheet from "react-spreadsheet";
 import { Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import Alert from "../../components/Alert";
 
 export default function Index(props) {
   const params = useParams();
@@ -161,16 +162,44 @@ export default function Index(props) {
   };
 
   const handleSave = async () => {
-    await save(data, uid);
+    await save(data, uid, (err, success) => {
+      if (success) {
+        handleMessage("Data saved!");
+
+        handleOpen();
+      }
+
+      return;
+    });
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const [message, setMessage] = useState(null);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleMessage = (m) => {
+    setMessage(m);
   };
 
   useEffect(() => {
     const handleJobData = async () => {
       const jobs = await getAllJobData(uid, (err, success) => {
         if (err) {
-          alert("User not found.");
+          handleMessage("User not found");
 
-          navigate("/");
+          handleOpen();
         }
       });
 
@@ -199,6 +228,12 @@ export default function Index(props) {
       >
         Save
       </button>
+      <Alert
+        open={open}
+        message={message}
+        handleClose={handleClose}
+        handleMessage={handleMessage}
+      />
     </Layout>
   );
 }
