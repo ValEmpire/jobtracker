@@ -1,6 +1,6 @@
 # Job Tracker
 
-A full stack web app for lighthouse students who wants to track their job searching. I built this app because there to solve issues of students tracking their job searches with their mentors.
+A full stack web app for lighthouse students who wants to track their job searching. I built this app to solve issues of students tracking their job searches with their mentors.
 
 ## DEMO **[LIVE!](https://jobtracker-682cb.web.app/)**
 
