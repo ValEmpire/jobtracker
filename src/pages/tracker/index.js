@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useAuthStatus } from "../../hooks/auth";
+import { getAllJobData } from "../../firebase/action";
 import Layout from "../../layout";
 import Spreadsheet from "react-spreadsheet";
 import { Box } from "@mui/material";
+import { saveJobData } from "../../firebase/action";
 
 export default function Index(props) {
   const user = useAuthStatus();
@@ -146,9 +148,23 @@ export default function Index(props) {
     ],
   ]);
 
-  const addRow = () => {
+  const addRow = async () => {
+    await saveJobData([...newRow], data.length, user.uid);
+
     setData((oldArray) => [...oldArray, newRow]);
   };
+
+  const handleJobData = useCallback(async () => {
+    const jobs = await getAllJobData(user.uid);
+
+    setData((oldArray) => {
+      return [oldArray[0], oldArray[1], ...jobs];
+    });
+  }, [user.uid]);
+
+  useEffect(() => {
+    handleJobData();
+  }, [handleJobData]);
 
   return (
     <Layout>
