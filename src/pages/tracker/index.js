@@ -1,12 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthStatus } from "../../hooks/auth";
-import { getAllJobData } from "../../firebase/action";
+import { getAllJobData, addRow, save } from "../../firebase/action";
 import Layout from "../../layout";
 import Spreadsheet from "react-spreadsheet";
 import { Box } from "@mui/material";
-import { saveJobData } from "../../firebase/action";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Index(props) {
+  const params = useParams();
+
+  const navigate = useNavigate();
+
+  const { uid } = params;
+
   const user = useAuthStatus();
 
   const [newRow] = useState(() => {
@@ -148,30 +154,51 @@ export default function Index(props) {
     ],
   ]);
 
-  const addRow = async () => {
-    await saveJobData([...newRow], data.length, user.uid);
+  const handleAddRow = async () => {
+    await addRow([...newRow], data.length - 2, uid);
 
     setData((oldArray) => [...oldArray, newRow]);
   };
 
-  const handleJobData = useCallback(async () => {
-    const jobs = await getAllJobData(user.uid);
-
-    setData((oldArray) => {
-      return [oldArray[0], oldArray[1], ...jobs];
-    });
-  }, [user.uid]);
+  const handleSave = async () => {
+    await save(data, uid);
+  };
 
   useEffect(() => {
+    const handleJobData = async () => {
+      const jobs = await getAllJobData(uid, (err, success) => {
+        if (err) {
+          alert("User not found.");
+
+          navigate("/");
+        }
+      });
+
+      setData((oldArray) => {
+        return [oldArray[0], oldArray[1], ...jobs];
+      });
+
+      return;
+    };
+
     handleJobData();
-  }, [handleJobData]);
+  }, [navigate, uid]);
 
   return (
     <Layout>
       <Box mt={10}>
         <Spreadsheet data={data} onChange={setData} />
       </Box>
-      <button onClick={addRow}>Add row</button>
+      <button disabled={!user || uid !== user.uid} onClick={handleAddRow}>
+        Add row
+      </button>
+      <button
+        disabled={!user || uid !== user.uid}
+        style={{ marginLeft: "5px" }}
+        onClick={handleSave}
+      >
+        Save
+      </button>
     </Layout>
   );
 }

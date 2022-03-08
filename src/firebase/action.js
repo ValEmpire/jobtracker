@@ -1,4 +1,4 @@
-import { ref, set, get, child } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 import { db } from "./index";
 
 import {
@@ -10,11 +10,27 @@ import {
 
 const auth = getAuth();
 
-export const saveJobData = async (data, index, uid) => {
+export const addRow = async (data, index, uid) => {
   try {
     await set(ref(db, `${uid}/${index}`), [...data]);
 
-    console.log("saved");
+    console.log("New row added");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const save = async (data, uid) => {
+  try {
+    const jobData = [...data];
+
+    jobData.shift();
+
+    jobData.shift();
+
+    await set(ref(db, `${uid}`), jobData);
+
+    console.log("Saved successfully.");
   } catch (err) {
     console.log(err);
   }
@@ -42,7 +58,7 @@ export const logoutFirebase = async () => {
   }
 };
 
-export const getAllJobData = async (uid) => {
+export const getAllJobData = async (uid, cb) => {
   var jobsRef = ref(db, uid);
 
   const jobs = [];
@@ -53,6 +69,8 @@ export const getAllJobData = async (uid) => {
     snapshot.forEach((child) => {
       jobs.push(child.val());
     });
+  } else {
+    cb(true, false);
   }
 
   return jobs;

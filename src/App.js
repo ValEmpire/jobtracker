@@ -10,7 +10,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/:id" element={<Tracker />} />
+        <Route exact path="/:uid" element={<Tracker />} />
       </Routes>
     </Router>
   );
