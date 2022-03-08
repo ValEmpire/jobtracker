@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCWnKHk8ZGk3EOwKLEretOc4pS5yPWu9ws",
-  authDomain: "jobtracker-682cb.firebaseapp.com",
-  databaseURL: "https://jobtracker-682cb-default-rtdb.firebaseio.com",
-  projectId: "jobtracker-682cb",
-  storageBucket: "jobtracker-682cb.appspot.com",
-  messagingSenderId: "410526344761",
-  appId: "1:410526344761:web:0845987aa54a051bc8cfe8",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

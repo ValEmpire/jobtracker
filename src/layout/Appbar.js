@@ -26,26 +26,24 @@ export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
-        <Container maxWidth="xl">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-                JobTracker
-              </Link>
-            </Typography>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+              JobTracker
+            </Link>
+          </Typography>
 
-            {user && (
-              <Button onClick={handleLogout} color="inherit">
-                Logout
-              </Button>
-            )}
-            {user === null && (
-              <Button onClick={handleLogin} color="inherit">
-                Login
-              </Button>
-            )}
-          </Toolbar>
-        </Container>
+          {user && (
+            <Button onClick={handleLogout} color="inherit">
+              Logout
+            </Button>
+          )}
+          {user === null && (
+            <Button onClick={handleLogin} color="inherit">
+              Login
+            </Button>
+          )}
+        </Toolbar>
       </AppBar>
     </Box>
   );
